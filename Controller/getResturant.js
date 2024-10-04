@@ -1,10 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 exports.getResturant= (req, res) => {
-    prisma.restaurant.findMany({
+    prisma.resturantuser.findMany({
        
         include: {
-            resturantusers: true // Assuming you want to include programs related to this channel
+          role: true // Assuming you want to include programs related to this channel
         }
       }).then((data)=>{
         if(data)

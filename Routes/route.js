@@ -12,7 +12,7 @@ const authorize=require('../Authorize/auth')
 const {addRole}=require('../Controller/addRole')
 const {getRole}=require('../Controller/getRole')
 const mockUser = (req, res, next) => {
-    req.user = { id: '1', role: 'admin' }; // Assign mock user
+    req.user = { id: '2', role: 'admin' }; // Assign mock user
     next();
   };
  
@@ -23,7 +23,7 @@ router.post("/signup/resturant",upload.single("logo"),Restaurant);
 router.post("/order",Order);
 router.post("/resturant/user/signup",Restaurantuser);
 router.post("/add-menu",upload.single("photo"),Menu);
-router.get("/resturant",authorize('read','returant'),getResturant);
+router.get("/resturant",authorize('read','post'),getResturant);
 router.get("/getrole",getRole);
 
 

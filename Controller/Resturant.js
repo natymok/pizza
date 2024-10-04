@@ -1,6 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
+const { permission } = require('process');
 const prisma = new PrismaClient();
 exports.Restaurant = (req, res) => {
+ 
     prisma.restaurant.findUnique({
           where:{
             email:req.body.email
@@ -23,31 +25,87 @@ exports.Restaurant = (req, res) => {
                     phone: req.body.phone,
                     logo:  req.file.path,
                     location: req.body.location,
-                    role : 'admin'
+    
 
                     
                   
                 },
-              }).then((data)=>{
-                if(data) {
-              
-                   res.status(200).json({
-                message:'resturant  registerd sucessfully',data})
+              }).then((resturant)=>{
+                if(resturant) {
+                     prisma.role.create({
+                      data:{
+                        name:"admin",
+                        resturantId:parseInt(resturant.id)
 
-                // // prisma.$disconnect();
-               
-               
+
+                      }
+                     })
+                     .then(role=>{
+                      if(role){
+                        prisma.permission.create({
+                          data:{
+                            action:"manage",
+                            resource:"all",
+                            roleId:parseInt(role.id)
+                          }
+                        })
+                        .then(permission=>{
+                          if(permission){
+                            prisma.resturantuser.create({
+                              data:{
+                                email:resturant.email,
+                                password:resturant.password,
+                                name:resturant.admin_name,
+                                resturantId:resturant.id,
+                                phone: resturant.phone,
+                                location:resturant.location,
+                                roleId:parseInt(role.id)
+                              }
+                            })
+                            .then(r_user=>{
+                              res.status(200).json({
+                                message:'user created ',r_user
+                              })
+                            })
+                            .catch(err=>{
+                              res.status(400).json({
+                                error:err
+                              })
+                            })   
+                            
+                          }
+                        })
+                        .catch(err=>{
+                          res.status(400).json({
+                            error:err
+                          })
+                        })   
+                        
+                      }
+                     })
+
+                     .catch(err=>{
+                      res.status(400).json({
+                        error:err
+                      })
+                    })   
                     
-
+               
+      
                    }
                    else{
                     res.status(400).json({
                       error:"something wrong"
                     })
                    }
-              });
-
+              })
               
+
+              .catch(err=>{
+                res.status(400).json({
+                  error:err
+                })
+              })   
               
          
         }
@@ -56,7 +114,7 @@ exports.Restaurant = (req, res) => {
     })
     .catch(err=>{
       res.status(400).json({
-        error:"something wrong"
+        error:err
       })
     })
     

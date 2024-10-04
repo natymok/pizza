@@ -7,6 +7,7 @@
 -- AlterTable
 ALTER TABLE "Role" DROP COLUMN "permissions";
 
+
 -- CreateTable
 CREATE TABLE "Permission" (
     "id" SERIAL NOT NULL,
