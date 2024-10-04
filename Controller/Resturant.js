@@ -32,16 +32,18 @@ exports.Restaurant = (req, res) => {
                 },
               }).then((resturant)=>{
                 if(resturant) {
+                    console.log(resturant.id,'vvvvvvvvvvvvv')
                      prisma.role.create({
                       data:{
                         name:"admin",
-                        resturantId:parseInt(resturant.id)
+                        resturantId: parseInt(resturant.id)
 
 
                       }
                      })
-                     .then(role=>{
+                     .then((role)=>{
                       if(role){
+                        console.log(role,'roleeeeeeeeee')
                         prisma.permission.create({
                           data:{
                             action:"manage",

@@ -45,7 +45,7 @@ model Resturantuser {
   phone          String
   location       String
   roleId         Int
-  role           Role[]
+  
   restaurant     Restaurant  @relation(fields: [resturantId], references: [id],onDelete: Cascade)
       
 }
@@ -54,7 +54,7 @@ model Role {
   name          String 
   resturantId   Int               
   permissions   Permission[]
-  resturantuser    Resturantuser  @relation(fields: [resturantId], references: [id],onDelete: Cascade) 
+
   
 }
 model Permission {
