@@ -1,12 +1,12 @@
 const { PrismaClient } = require('@prisma/client');
 const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
-exports.ResturantSignin = (req, res) => {
-    const signtoken = (id,role) => {
-        const token = jwt.sign({ id,role }, process.env.JWT_SECRET, { expiresIn: "1y" });
+exports.userSignin = (req, res) => {
+    const signtoken = (id) => {
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1y" });
         return token;
       };
-    prisma.resturantuser.findUnique({
+    prisma.user.findUnique({
         where: {
             email:  req.body.email 
         },
@@ -15,7 +15,7 @@ exports.ResturantSignin = (req, res) => {
              {
                 console.log(data)
                 if(data.password==req.body.password){
-                    const _token = signtoken(data.resturantId,data.role);
+                    const _token = signtoken(data.id);
 
                     res.cookie("access_token", _token, {
                         httpOnly: true,

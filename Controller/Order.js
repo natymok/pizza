@@ -5,7 +5,7 @@ exports.Order = (req, res) => {
    
             prisma.order.create({
                 data: {
-                    userID:  req.body.userID,
+                    userID:  req.body.id,
                     resturantId:  req.body.resturantId,
                     name:  req.body.name,
                     toping: req.body.toping,
@@ -14,7 +14,7 @@ exports.Order = (req, res) => {
                   
                 },
               })
-              .then((data,err)=>{
+              .then((data)=>{
                 if(data) {
               
                    res.status(200).json({
@@ -22,17 +22,18 @@ exports.Order = (req, res) => {
                 // prisma.$disconnect();
 
                    }
-                   if(err){
+                   else{
                     res.status(400).json({
                         error:"something wrong"
                       })
                    }
-                   else{
-                    res.status(400).json({
-                      error:"something wrong"
-                    })
-                   }
-              });
+                
+              })
+              .catch((err)=>{
+                if(err){
+                  
+                }
+              })
               
          
     

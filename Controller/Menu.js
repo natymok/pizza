@@ -6,7 +6,7 @@ exports.Menu = (req, res) => {
    
             prisma.menu.create({
                 data: {
-                    resturantId: parseInt(req.body.resturantId),
+                    resturantId: parseInt(req.user.id),
                     price:  parseFloat(req.body.price),
                     name:  req.body.name,
                     toping: (req.body.toping).split(','),
@@ -14,7 +14,7 @@ exports.Menu = (req, res) => {
                   
                 },
               })
-              .then((data,err)=>{
+              .then((data)=>{
                 if(data) {
               
                    res.status(200).json({
@@ -22,17 +22,18 @@ exports.Menu = (req, res) => {
                 // prisma.$disconnect();
 
                    }
-                   if(err){
+                   else{
                     res.status(400).json({
                         error:"something wrong"
                       })
                    }
-                   else{
-                    res.status(400).json({
-                      error:"something wrong"
-                    })
-                   }
-              });
+                 
+              })
+              .catch((err)=>{
+                res.status(400).json({
+                  error:"something wrong"
+                })
+              })
               
          
     

@@ -4,7 +4,10 @@ exports.addRole = (req, res) => {
             
             prisma.role.findUnique({
               where:{
-                name:req.body.name
+                resturantId_name: {  
+                  resturantId: parseInt(req.body.resturantId),
+                  name: req.body.name,
+                },
     
               } 
         })
@@ -40,7 +43,8 @@ exports.addRole = (req, res) => {
           else{
             prisma.role.create({
               data: {
-                  name:req.body.name
+                  name:req.body.name,
+                  resturantId:req.body.resturantId
                 
               },
             })

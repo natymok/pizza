@@ -24,8 +24,8 @@ model User {
 model Restaurant {
   id             Int      @id @unique @default(autoincrement())
   email          String   @unique
-  admin_name     String
-  resturant_name String
+  admin_name     String   
+  resturant_name String   @unique
   password       String
   phone          String
   location       String
@@ -44,7 +44,7 @@ model Resturantuser {
   resturantId    Int
   phone          String
   location       String
-  roleId         Int
+  role           String
   
   restaurant     Restaurant  @relation(fields: [resturantId], references: [id],onDelete: Cascade)
       
@@ -54,6 +54,7 @@ model Role {
   name          String 
   resturantId   Int               
   permissions   Permission[]
+  @@unique([resturantId, name])
 
   
 }
@@ -76,15 +77,15 @@ model Menu {
 }
 
 model Order {
-  id             Int      @id @default(autoincrement())
-  userID         Int
-  resturantId    Int
-  name           String
-  toping         String[]
-  quantity       Int
-  photo          String
-  status         String      @default("ready") 
-  resturant      Restaurant  @relation(fields: [resturantId], references: [id],onDelete: Cascade)
-  users          User        @relation(fields: [userID], references: [id],onDelete: Cascade)
+  id                  Int      @id @default(autoincrement())
+  userID              Int
+  resturant_name      String
+  name                String
+  toping              String[]
+  quantity            Int
+  photo               String
+  status              String      @default("ready") 
+  resturant           Restaurant  @relation(fields: [resturant_name], references: [resturant_name],onDelete: Cascade)
+  users               User        @relation(fields: [userID], references: [id],onDelete: Cascade)
  
 }

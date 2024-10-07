@@ -31,6 +31,7 @@ const defineAbilityFor = require('../Ability/defineRulesFor');
 
 module.exports = (action, resource) => {
   return async (req, res, next) => {
+      console.log(req.user,'reqqqqqqqqqqqqqqqqq')
     try {
       const ability = await defineAbilityFor(req.user); // Await the ability definition
       console.log(req.user, 'user');

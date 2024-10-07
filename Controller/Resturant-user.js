@@ -14,7 +14,7 @@ exports.Restaurantuser = (req, res) => {
         }
         else{
 
-            prisma.Resturantuser.create({
+            prisma.resturantuser.create({
                 data: {
                     email:  req.body.email,
                     password:  req.body.password,
@@ -22,7 +22,7 @@ exports.Restaurantuser = (req, res) => {
                     resturantId:  req.body.resturantID,
                     phone: req.body.phone,
                     location: req.body.location,
-                    roleId:req.body.roleId,
+                    role:req.body.role,
                     restaurant: {
                         connect: { id: req.body.resturantId }
                       }

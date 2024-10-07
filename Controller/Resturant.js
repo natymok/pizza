@@ -61,7 +61,7 @@ exports.Restaurant = (req, res) => {
                                 resturantId:resturant.id,
                                 phone: resturant.phone,
                                 location:resturant.location,
-                                roleId:parseInt(role.id)
+                                role:role.name
                               }
                             })
                             .then(r_user=>{
